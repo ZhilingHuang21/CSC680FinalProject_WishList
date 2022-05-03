@@ -48,9 +48,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewLoadSetUp()
+    }
+    func viewLoadSetUp(){
         emailTextField.delegate = self
         passwordTextField.delegate = self
     }
+    
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == emailTextField {
             guard let text = textField.text else{

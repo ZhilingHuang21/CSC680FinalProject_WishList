@@ -8,33 +8,75 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseFirestore
 
 
 class HomeViewController: UIViewController {
     @IBOutlet weak var greeting: UILabel!
     
-    @IBOutlet weak var aztrodescription: UITextView!
+    @IBOutlet weak var mysign: UILabel!
+    @IBOutlet weak var AztroDes: UITextView!
+    @IBOutlet weak var luckyColor: UILabel!
+    @IBOutlet weak var Compatibility: UILabel!
+    @IBOutlet weak var luckyTime: UILabel!
+    @IBOutlet weak var mood: UILabel!
+    @IBOutlet weak var luckyNumber: UILabel!
+    
+    @IBOutlet weak var Avatar: UIImageView!
+    
     let networking = NetWorking()
+    let datehandler = DateHandler()
     
     let currentUser = Auth.auth().currentUser
     let ref = Database.database().reference()
     
     var aztroInfo: Aztro?
+    var isLoadingViewController = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DispatchQueue.main.async {
-            self.getData { user in
-                self.greeting.text = "Hi, \(user.username)"
-                self.uploadTodayAztro(user.birthday)
-            }
-        }
+        isLoadingViewController = true
+        viewLoadSetUp()
         
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if isLoadingViewController {
+            isLoadingViewController = false
+        }
+        else{
+            viewLoadSetUp()
+        }
+    }
+    
+    
+    func viewLoadSetUp(){
+        DispatchQueue.main.async {
+            self.updateHomeView()
+        }
+    }
+    
+    
+    
+    
+    func updateHomeView(){
+        guard let uid = currentUser?.uid else {
+            return
+        }
+        self.networking.readDataFromFrieBase(collection: "User", uid: uid){ data in
+            let username = data["Username"] as! String
+            guard let birthday = data["Birthday"] as? FirebaseFirestore.Timestamp else {
+                return
+            }
+            let birthdayDate = birthday.dateValue()
+            let birthdayString = self.datehandler.getStringByDate(birthdayDate,format: "MM-d")
+            self.greeting.text = "Hi, \(username)"
+            self.uploadTodayAztro(birthdayString)
+        }
     }
     
     func uploadTodayAztro(_ birthday: String){
-        let datehandler = DateHandler()
-        let mydate = datehandler.getDateByString(birthday)
+        let mydate = self.datehandler.getDateByString(birthday)
         guard let mysign = datehandler.FindYourConstellation(mydate) else {
             return
         }
@@ -48,42 +90,16 @@ class HomeViewController: UIViewController {
     
     
     func daliyHoroscpe(mydetail: Aztro, mysign: String){
-        let text = "Daily Horoscope \n" +
-                    "Dear, \(mysign) \n" +
-        "Today: \(mydetail.description) \n" +
-        "Your lucky color : \(mydetail.color) \n " +
-        "Your lucky number: \(mydetail.lucky_number) \n" +
-        "Your lucky time: \(mydetail.lucky_time)  \n" +
-        "Your compatibility: \(mydetail.compatibility) \n" +
-        "Your mood : \(mydetail.mood) \n"
         
-        self.aztrodescription.text = text
+        self.mysign.text = "Dear, \(mysign)"
+        self.AztroDes.text = "Today: \(mydetail.description)"
+        self.luckyColor.text = "Color: \(mydetail.color)"
+        self.luckyTime.text = "Lucky Time: \(mydetail.lucky_time)"
+        self.luckyNumber.text = "Lucky #: \(mydetail.lucky_number)"
+        self.Compatibility.text = "Compatibility: \(mydetail.compatibility)"
+        self.mood.text = "Mood: \(mydetail.mood)"
+        
     }
-    
-    
-    
-    
-    
-    func getData( _ callback: @escaping (User) -> Void ){
-        guard let uid = currentUser?.uid else {
-            return
-        }
-        ref.child("User").child(uid).observe(.value, with: {(snapshot) in
-            if let dictionary = snapshot.value as? [String : Any] {
-                var user = User()
-                user.username = dictionary["Username"] as! String
-                user.email = dictionary["Email"] as! String
-                user.birthday = dictionary["Birthday"] as! String
-                callback(user)
-            }
-        })
-        {(error) in
-            print(error)
-        }
-
-
-    }
-    
     
     
 }

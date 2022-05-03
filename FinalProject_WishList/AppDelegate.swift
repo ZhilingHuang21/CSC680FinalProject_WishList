@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if user != nil {
             let storyboard = UIStoryboard(name: "WishlistHome", bundle: nil)
             
-            guard let vc = storyboard.instantiateViewController(withIdentifier: "UINavigationController") as? UINavigationController else{
+            guard let vc = storyboard.instantiateViewController(withIdentifier: "UITabBarController") as? UITabBarController else{
                 return
             }
             window?.rootViewController = vc

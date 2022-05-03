@@ -9,5 +9,7 @@ target 'FinalProject_WishList' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
+  pod 'DatePickerDialog'
 
 end

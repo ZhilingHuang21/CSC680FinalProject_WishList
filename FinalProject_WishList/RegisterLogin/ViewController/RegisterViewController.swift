@@ -42,16 +42,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     let networking = NetWorking()
     @IBAction func donePressed(_ sender: Any) {
+        dataPickerSetter()
         if self.passwordIsValue && userInfo.isValueSet(){
             FirebaseAuth()
         }
-        
-        
-    
     }
     func FirebaseAuth(){
         let data = self.userInfo.getBaseType()
-        
         Auth.auth().createUser(withEmail: self.userInfo.email, password: self.userInfo.password) { authResult, error in
             if (error != nil) {
                 print("Error in Signs up Account. Error \(String(describing: error))")
@@ -62,8 +59,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 guard let userUid = Auth.auth().currentUser?.uid else {
                     return
                 }
-                print(userUid)
-                self.networking.addDataToFirebase(path: "User", data: data, uid: userUid )
+                self.networking.addDataToFirebase(collection: "User", data: data, uid: userUid )
                 let loginManager = LoginManager()
                 loginManager.logIn()
             }
@@ -73,21 +69,29 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewLoadSetup()
+        // Do any additional setup after loading the view
+    }
+    
+    func viewLoadSetup(){
         navigationItem.title = "Register"
         emailInput.delegate = self
         userNameInput.delegate = self
-        dataPickerSetter()
         passwordInput.delegate = self
         repeatPasswordInput.delegate = self
-        // Do any additional setup after loading the view
     }
+    
+    
+    
+    
+    
+    
     func dataPickerSetter(){
         birthdayPicker.maximumDate = Date()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-d"
-        let birthday = dateFormatter.string(from: birthdayPicker.date)
-        userInfo.birthday = birthday
+        userInfo.birthday = birthdayPicker.date
     }
+    
+    
     
     
     

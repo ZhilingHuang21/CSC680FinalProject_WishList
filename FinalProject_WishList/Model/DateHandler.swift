@@ -61,6 +61,13 @@ class DateHandler {
             return nil
         }
         return monthDay
+    }
+    
+    func getStringByDate(_ date: Date, format: String)-> String{
+        let dateformatter = DateFormatter()
+        dateformatter.dateFormat = format
+        let stringdate = dateformatter.string(from: date)
+        return stringdate
         
     }
     func FindYourConstellation(_ mydate: Date?)-> constellation?{

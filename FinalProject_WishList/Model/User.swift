@@ -18,10 +18,10 @@ struct User : Codable {
     var email : String = ""
     var username : String = ""
     var password : String = ""
-    var birthday : String = ""
+    var birthday : Date?
     
     func isValueSet() -> Bool{
-        return !self.email.isEmpty && !self.password.isEmpty && !self.username.isEmpty && !self.birthday.isEmpty
+        return !self.email.isEmpty && !self.password.isEmpty && !self.username.isEmpty
     }
     func isRepeatPassword(repeatPassword : String) -> Bool {
         if self.password.isEmpty {
@@ -37,8 +37,6 @@ struct User : Codable {
             data["Email"] = self.email
             data["Username"] = self.username
             data["Birthday"] = self.birthday
-            data["password"] = self.password
-            
         }
         return data
     }

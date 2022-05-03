@@ -13,6 +13,12 @@ class LoginManager {
         NotificationCenter.default.post(name: .loggedIn, object: nil,userInfo: nil)
     }
     func logOut(){
-        NotificationCenter.default.post(name: .loggedOut, object: nil, userInfo: nil)
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            NotificationCenter.default.post(name: .loggedOut, object: nil, userInfo: nil)
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
     }
 }

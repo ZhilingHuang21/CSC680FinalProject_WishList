@@ -6,14 +6,108 @@
 
 import Foundation
 import FirebaseDatabase
+import FirebaseFirestore
+
 class NetWorking {
     
-    private let ref = Database.database().reference()
-    
-    func addDataToFirebase (path: String, data: [ String : Any ], uid: String ){
-        self.ref.child(path).child(uid).setValue(data)
+    let db = Firestore.firestore()
+    func getdb() -> Firestore {
+        return self.db
+    }
+    func addDataToFirebase (collection: String, data: [ String : Any ], uid: String ){
+        self.db.collection(collection).document(uid).setData(data){ err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    func addArrayToFireBase(collection: String, data: [String],fieldName:String, uid :String, onSucess:@escaping ()->(),onError:@escaping ()->()){
+        let docRef = self.db.collection(collection).document(uid)
+        docRef.getDocument{ (document, error) in
+            if let document = document, document.exists {
+                docRef.updateData([ fieldName : FieldValue.arrayUnion(data)]){err in
+                    if let err = err {
+                        onError()
+                        print("Error writing document: \(err)")
+                    } else {
+                        onSucess()
+                        print("Document successfully written!")
+                    }
+                }
+                
+            }
+            else{
+                docRef.setData([fieldName: data]){err in
+                    if let err = err {
+                        onError()
+                        print("Error writing document: \(err)")
+                    } else {
+                        onSucess()
+                        print("Document successfully written!")
+                    }
+                }
+            }
+            
+        }
         
     }
+    
+    func readDataFromFrieBase(collection: String, uid:String, callback: @escaping ([String : Any])->()){
+        let docRef = self.db.collection(collection).document(uid)
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                if let data = document.data(){
+                    callback(data)
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func deleteItemfromArrayFireBase(collection: String, uid:String, data: [String],fieldName:String ,onScuess:@escaping ()->(), onError: @escaping ()->()){
+        let docRef = self.db.collection(collection).document(uid)
+        docRef.getDocument{(document, error) in
+            if let document = document, document.exists {
+                docRef.updateData([fieldName : FieldValue.arrayRemove(data)]){ err in
+                    if let err = err {
+                        onError()
+                        print("Error writing document: \(err)")
+                    }
+                    else{
+                        onScuess()
+                        print("Document successfully Delete!")
+                    }
+                    
+                }
+                
+            }
+            else{
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func updateDatetoFirebase(collection: String, uid: String, data: [String: Any], onSuccess: @escaping ()->(), onError:@escaping ()->()){
+        let docRef = self.db.collection(collection).document(uid)
+        
+        docRef.updateData(data){ err in
+            if let err = err {
+                onError()
+                print("Error writing document: \(err)")
+            }
+            else{
+                onSuccess()
+                print("Document successfully Delete!")
+            }
+            
+        }
+    }
+    
+    
+    
     
     func getAztroToday(sign: String , callback: @escaping (Aztro)->()){
         let headers = [
