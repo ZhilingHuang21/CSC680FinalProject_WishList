@@ -27,6 +27,7 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     var FriendUid: [String] = []
     var friendList: [Friend] = []
     let uiAlert = UIAlert()
+    let errorhandler = ErrorHandler()
     
 
     @IBAction func addFriendsPressed(_ sender: Any) {
@@ -97,7 +98,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func addFriendsToFriebase(data:String){
-        print(data)
         self.networking.findFirebaseDataIsEqualToData(collection: "User", FieldName: "Email", data: data, onSuccess: onSuccess(data:), onError: onError)
     }
     func onSuccess(data: [Any]){
@@ -108,8 +108,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
             let uid = (data[0] as AnyObject).documentID
             self.networking.addArrayToFireBase(collection: "Friends", data: [uid!], fieldName: "friendsUID", uid: myuid, onSucess: onSucessAddFriend, onError: onError)
         }
+        else{
+            self.onError()
+        }
     }
     func onError(){
+        self.errorhandler.showErrorAlert(ui: self , message: "this email not exist or error occor"){}
         
     }
     func onSucessAddFriend(){
