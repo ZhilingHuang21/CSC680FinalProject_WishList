@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 enum constellation: CustomStringConvertible{
     
@@ -54,9 +55,13 @@ enum constellation: CustomStringConvertible{
 
 class DateHandler {
     
-    func getDateByString(_ date: String) -> Date?{
+    func daysBetween(start: Date, end: Date)->Int{
+        return Calendar.current.dateComponents([.day], from: start, to: end).day!
+    }
+    
+    func getDateByString(_ date: String, format: String) -> Date?{
         let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "MM-d"
+        dateformatter.dateFormat = format
         guard let monthDay: Date = dateformatter.date(from: date) else {
             return nil
         }
@@ -70,45 +75,74 @@ class DateHandler {
         return stringdate
         
     }
+    func getDatebyFirebaseTimestamp(_ date : FirebaseFirestore.Timestamp) -> Date {
+        return date.dateValue()
+    }
+    func getNextbirthday(_ date : Date)-> Date {
+        let monthDay = self.getStringByDate(date, format: "MM-d")
+        let yearString = self.getStringByDate(Date(), format: "yyyy")
+        var thisYearBirthday = monthDay + "-" + yearString
+        var thisYearBirthdayDate = self.getDateByString(thisYearBirthday, format: "MM-dd-yyyy")!
+        var year: Int
+        if thisYearBirthdayDate < Date(){
+            if let yearInt = Int(yearString) {
+                year = yearInt + 1
+                thisYearBirthday = "\(monthDay)-\(year)"
+                thisYearBirthdayDate = self.getDateByString(thisYearBirthday, format: "MM-dd-yyyy")!
+            }
+        }
+        return thisYearBirthdayDate
+    }
+    func sortArrayByClosingBirthday(data: [Friend]) -> [Friend]{
+        let data1 = data.sorted(by: { friend1,friend2 in
+            let date1 = self.getNextbirthday( friend1.birthday! )
+            let date2 = self.getNextbirthday( friend2.birthday! )
+            let days = self.daysBetween(start: Date(), end: date1)
+            let days2 = self.daysBetween(start: Date(), end: date2)
+            return days < days2
+        })
+        return data1
+    }
+    
     func FindYourConstellation(_ mydate: Date?)-> constellation?{
         guard let date = mydate else {
             return nil
         }
 
-        guard let AquariusfromDate = getDateByString("01-21") else{
+        guard let AquariusfromDate = getDateByString("01-21",format: "MM-d") else{
             return nil
         }
-        guard let PiscesfromDate = getDateByString("02-20") else {
+        guard let PiscesfromDate = getDateByString("02-20",format: "MM-d") else {
             return nil
         }
-        guard let AriesfromDate = getDateByString("03-21") else {
+        guard let AriesfromDate = getDateByString("03-21",format: "MM-d") else {
             return nil
         }
-        guard let TaurusfromDate = getDateByString("04-21") else {
+        guard let TaurusfromDate = getDateByString("04-21",format: "MM-d") else {
             return nil
         }
-        guard let GeminifromDate = getDateByString("05-22") else {
+        guard let GeminifromDate = getDateByString("05-22",format: "MM-d") else {
             return nil
         }
-        guard let CancerfromDate = getDateByString("06-22") else {
+        guard let CancerfromDate = getDateByString("06-22",format: "MM-d") else {
             return nil
         }
-        guard let LeofromDate = getDateByString("07-23") else {
+        guard let LeofromDate = getDateByString("07-23",format: "MM-d") else {
             return nil
         }
-        guard let VirgofromDate = getDateByString("08-23") else {
+        guard let VirgofromDate = getDateByString("08-23",format: "MM-d") else {
             return nil
         }
-        guard let LibrafromDate = getDateByString("09-23") else {
+        guard let LibrafromDate = getDateByString("09-23",format: "MM-d") else {
             return nil
         }
-        guard let ScorpiofromDate = getDateByString("10-24") else {
+        guard let ScorpiofromDate = getDateByString("10-24",format: "MM-d") else {
             return nil
         }
-        guard let SagittariusfromDate = getDateByString("11-22") else {
+        guard let SagittariusfromDate = getDateByString("11-22",format: "MM-d") else {
             return nil
         }
-        guard let CapricornfromDate = getDateByString("12-21") else {
+        guard let CapricornfromDate = getDateByString("12-21",format: "MM-d") else {
             return nil
         }
         
@@ -149,4 +183,6 @@ class DateHandler {
         }
         return sign
     }
+    
+    
 }

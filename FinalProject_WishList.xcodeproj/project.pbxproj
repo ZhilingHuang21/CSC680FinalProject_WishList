@@ -12,6 +12,9 @@
 		470F48D8281F9DD30002E840 /* UIAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D7281F9DD30002E840 /* UIAlert.swift */; };
 		470F48DA28205B040002E840 /* WishItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D928205B020002E840 /* WishItem.swift */; };
 		470F48DD2820A0810002E840 /* PrefileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48DC2820A0810002E840 /* PrefileViewController.swift */; };
+		470F48E02822FAAC0002E840 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48DF2822FAAC0002E840 /* FriendsViewController.swift */; };
+		470F48E22823076E0002E840 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48E12823076E0002E840 /* Friends.swift */; };
+		470F48E42823708A0002E840 /* FriendWishlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48E32823708A0002E840 /* FriendWishlistViewController.swift */; };
 		47C3EBFD2815E9E3007D93B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C3EBFC2815E9E3007D93B0 /* AppDelegate.swift */; };
 		47C3EC012815E9E3007D93B0 /* RegisterLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C3EC002815E9E3007D93B0 /* RegisterLogInViewController.swift */; };
 		47C3EC042815E9E3007D93B0 /* RegisterLogIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47C3EC022815E9E3007D93B0 /* RegisterLogIn.storyboard */; };
@@ -39,6 +42,9 @@
 		470F48D7281F9DD30002E840 /* UIAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlert.swift; sourceTree = "<group>"; };
 		470F48D928205B020002E840 /* WishItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishItem.swift; sourceTree = "<group>"; };
 		470F48DC2820A0810002E840 /* PrefileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefileViewController.swift; sourceTree = "<group>"; };
+		470F48DF2822FAAC0002E840 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		470F48E12823076E0002E840 /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
+		470F48E32823708A0002E840 /* FriendWishlistViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendWishlistViewController.swift; sourceTree = "<group>"; };
 		47C3EBF92815E9E3007D93B0 /* FinalProject_WishList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject_WishList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47C3EBFC2815E9E3007D93B0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47C3EC002815E9E3007D93B0 /* RegisterLogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterLogInViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +103,16 @@
 				470F48DC2820A0810002E840 /* PrefileViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		470F48DE2822FA700002E840 /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				470F48DF2822FAAC0002E840 /* FriendsViewController.swift */,
+				470F48E32823708A0002E840 /* FriendWishlistViewController.swift */,
+				470F48E12823076E0002E840 /* Friends.swift */,
+			);
+			path = Friend;
 			sourceTree = "<group>";
 		};
 		47C3EBF02815E9E3007D93B0 = {
@@ -168,6 +184,7 @@
 		47C3EC32281BA845007D93B0 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				470F48DE2822FA700002E840 /* Friend */,
 				470F48DB2820A0560002E840 /* Profile */,
 				47C3EC33281BA889007D93B0 /* WishlistHome.storyboard */,
 				470F48D1281F8D3A0002E840 /* Wishlist */,
@@ -328,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470F48E22823076E0002E840 /* Friends.swift in Sources */,
 				470F48D8281F9DD30002E840 /* UIAlert.swift in Sources */,
 				470F48DD2820A0810002E840 /* PrefileViewController.swift in Sources */,
 				47C3EC1528165BE4007D93B0 /* validator.swift in Sources */,
@@ -338,6 +356,7 @@
 				47C3EC30281B9040007D93B0 /* LogInViewController.swift in Sources */,
 				47C3EC1C281A0EB1007D93B0 /* NetWorking.swift in Sources */,
 				47C3EC3E281EF586007D93B0 /* DateHandler.swift in Sources */,
+				470F48E02822FAAC0002E840 /* FriendsViewController.swift in Sources */,
 				47C3EC3B281C8AD0007D93B0 /* HomeViewController.swift in Sources */,
 				47C3EC38281C7F5B007D93B0 /* LoginManager.swift in Sources */,
 				47C3EC36281C7E6A007D93B0 /* NotificationName+Extensions.swift in Sources */,
@@ -345,6 +364,7 @@
 				470F48D3281F8D5C0002E840 /* WishListViewController.swift in Sources */,
 				470F48D5281F8F080002E840 /* FirebaseAuth.swift in Sources */,
 				47C3EBFD2815E9E3007D93B0 /* AppDelegate.swift in Sources */,
+				470F48E42823708A0002E840 /* FriendWishlistViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
