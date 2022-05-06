@@ -20,16 +20,16 @@ class PrefileController: UIViewController {
     let alertController = UIAlert()
     let homepage = HomeViewController()
     var isLoadingViewController = false
+    let errorhandler = ErrorHandler()
     
     
     @IBAction func logOutPressed(_ sender: Any) {
         self.loginManager.logOut()
     }
+    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~change user name~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @IBAction func ChangeUserName(_ sender: Any) {
-        self.alertController.UIAlertWithTextField(title: "Edit Username", actionButton: "Edit", callback: uiAction(ui:) , data: EditUserNameAction(data:))
-    }
-    func uiAction(ui: UIAlertController){
-        self.present(ui, animated: true, completion: nil)
+        self.alertController.UIAlertWithTextField(title: "Edit Username", actionButton: "Edit",ui: self , data: EditUserNameAction(data:))
     }
     
     func EditUserNameAction(data: String){
@@ -40,6 +40,7 @@ class PrefileController: UIViewController {
         self.netWorking.updateDatetoFirebase(collection: "User", uid: uid , data: data, onSuccess: onSuccess, onError: onError)
         
     }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~change user birthday~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     @IBAction func EditBirthday(_ sender: Any) {
         self.alertController.UIAlertWithDatePicker(title: "Edit Birthday", actionButton: "Edit", callback:EditBirthdayAction(date:))
         
@@ -52,19 +53,18 @@ class PrefileController: UIViewController {
         let data = [ "Birthday": date ]
         self.netWorking.updateDatetoFirebase(collection: "User", uid: uid , data: data, onSuccess: onSuccess, onError: onError)
     }
-    
-    
-    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~result handle~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     func onSuccess(){
         self.viewDidLoad()
     }
     func onError(){
-        
+        self.errorhandler.showErrorAlert(ui: self, message: "May be friebase occur error"){}
     }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         isLoadingViewController = true
@@ -84,18 +84,18 @@ class PrefileController: UIViewController {
     func viewLoadSetup(){
         self.updateInfo()
     }
-    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~User info~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func updateInfo(){
         
         guard let uid = self.uid else{
             return
         }
-        self.netWorking.readDataFromFrieBase(collection: "User", uid: uid){ data in
+        self.netWorking.readDataFromFrieBase(collection: "User", uid: uid){ [weak self] data in
             let username = data["Username"] as! String
             let birthday = data["Birthday"] as! FirebaseFirestore.Timestamp
             let date = birthday.dateValue()
             DispatchQueue.main.async {
-                self.setUsernameAndBirthday(username: username, birthday: date)
+                self?.setUsernameAndBirthday(username: username, birthday: date)
             }
             
         }

@@ -18,11 +18,12 @@ class WishListViewController: UIViewController, UITableViewDelegate, UITableView
     let uiAlert = UIAlert()
     let networking = NetWorking()
     private var wishItems: [String] = []
+    let errorhandler = ErrorHandler()
     
     @IBOutlet weak var tableview: UITableView!
     
     @IBAction func AddItemPressed(_ sender: Any) {
-        uiAlert.UIAlertWithTextField(title: "Add Wish Item", actionButton: "Add", callback: uiAction(ui:), data: addItem(item:))
+        uiAlert.UIAlertWithTextField(title: "Add Wish Item", actionButton: "Add",ui: self, data: addItem(item:))
         
     }
     override func viewDidLoad() {
@@ -39,11 +40,8 @@ class WishListViewController: UIViewController, UITableViewDelegate, UITableView
         readItems()
     }
     
-    
-    func uiAction(ui: UIAlertController){
-        self.present(ui, animated: true, completion: nil)
-        
-    }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~add tab button~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func addItem(item: String){
         guard let uid = FirebaseAuth().getUid() as String? else{
             return
@@ -51,20 +49,15 @@ class WishListViewController: UIViewController, UITableViewDelegate, UITableView
         let itemArray:[String]  = [item]
         self.networking.addArrayToFireBase(collection: "WishItem", data: itemArray, fieldName: "items", uid: uid, onSucess: onScuess, onError: onError)
     }
-    func onScuess(){
-        self.viewDidLoad()
-    }
-    func onError(){
-        
-    }
-    
+
+//~~~~~~~~~~~~~~~~~~read data and upload to table view~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func readItems() {
         guard let uid = FirebaseAuth().getUid() as String? else{
             return
         }
-        self.networking.readDataFromFrieBase(collection: "WishItem", uid: uid){ data in
+        self.networking.readDataFromFrieBase(collection: "WishItem", uid: uid){ [weak self] data in
             let item = data["items"] as! [String]
-            self.tableviewUpdate(with: item)
+            self?.tableviewUpdate(with: item)
         }
     }
     func tableviewUpdate(with data: [String]){
@@ -95,6 +88,14 @@ class WishListViewController: UIViewController, UITableViewDelegate, UITableView
             self.networking.deleteItemfromArrayFireBase(collection: "WishItem", uid: uid, data: data, fieldName: "items",onScuess: onScuess ,onError: onError)
         }
     }
-    
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
+    func onScuess(){
+        self.viewDidLoad()
+    }
+    func onError(){
+        self.errorhandler.showErrorAlert(ui: self, message: "Error Occurred"){}
+    }
     
 }

@@ -5,6 +5,8 @@
 //  Created by Zhiling huang on 5/1/22.
 //
 
+// Description: Handling user Birthday and constellation
+
 import Foundation
 import FirebaseFirestore
 
@@ -54,11 +56,12 @@ enum constellation: CustomStringConvertible{
 }
 
 class DateHandler {
-    
+    // find numbers days between two date
     func daysBetween(start: Date, end: Date)->Int{
         return Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
     
+    // get Date type data  by string type data
     func getDateByString(_ date: String, format: String) -> Date?{
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = format
@@ -67,7 +70,7 @@ class DateHandler {
         }
         return monthDay
     }
-    
+    //get String data type by Date type data
     func getStringByDate(_ date: Date, format: String)-> String{
         let dateformatter = DateFormatter()
         dateformatter.dateFormat = format
@@ -75,9 +78,13 @@ class DateHandler {
         return stringdate
         
     }
+    // convert FirebaseFirestore Timestamp type  to Date type
     func getDatebyFirebaseTimestamp(_ date : FirebaseFirestore.Timestamp) -> Date {
         return date.dateValue()
     }
+    
+    
+    // geting your this year birthday(Date type)
     func getNextbirthday(_ date : Date)-> Date {
         let monthDay = self.getStringByDate(date, format: "MM-d")
         let yearString = self.getStringByDate(Date(), format: "yyyy")
@@ -93,6 +100,8 @@ class DateHandler {
         }
         return thisYearBirthdayDate
     }
+    
+    // sort the Firend by birthday, and find out who is resent birthday guys
     func sortArrayByClosingBirthday(data: [Friend]) -> [Friend]{
         let data1 = data.sorted(by: { friend1,friend2 in
             let date1 = self.getNextbirthday( friend1.birthday! )
@@ -104,6 +113,7 @@ class DateHandler {
         return data1
     }
     
+    // Find user Zodiac sign by user birthday
     func FindYourConstellation(_ mydate: Date?)-> constellation?{
         guard let date = mydate else {
             return nil

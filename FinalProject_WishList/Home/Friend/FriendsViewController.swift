@@ -26,8 +26,12 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     let datehandler = DateHandler()
     var FriendUid: [String] = []
     var friendList: [Friend] = []
+    let uiAlert = UIAlert()
     
 
+    @IBAction func addFriendsPressed(_ sender: Any) {
+        self.showAddFriendUIAlert()
+    }
     
     
     @IBOutlet weak var tableView: UITableView!
@@ -42,7 +46,6 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewWillAppear(animated)
         if isLoadingViewController {
             isLoadingViewController = false
-            self.friendList = []
         }
         else{
             viewLoadSetUp()
@@ -55,6 +58,8 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         tableView.dataSource = self
         self.getFriendUidArray()
     }
+    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tableview~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell") as? FriendsCell else {
             return UITableViewCell()
@@ -85,24 +90,48 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         let friend = self.friendList[indexPath.row]
         friendWishListViewController.friend = friend
     }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Add Friend handle~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    func showAddFriendUIAlert(){
+        uiAlert.UIAlertWithTextField(title: "Enter Friend's Email", actionButton: "Add", ui: self , data: addFriendsToFriebase(data:))
+    }
     
-    
-    
-    
-    
-    
+    func addFriendsToFriebase(data:String){
+        print(data)
+        self.networking.findFirebaseDataIsEqualToData(collection: "User", FieldName: "Email", data: data, onSuccess: onSuccess(data:), onError: onError)
+    }
+    func onSuccess(data: [Any]){
+        guard let myuid = uid else {
+            return
+        }
+        if data.count == 1 {
+            let uid = (data[0] as AnyObject).documentID
+            self.networking.addArrayToFireBase(collection: "Friends", data: [uid!], fieldName: "friendsUID", uid: myuid, onSucess: onSucessAddFriend, onError: onError)
+        }
+    }
+    func onError(){
+        
+    }
+    func onSucessAddFriend(){
+        self.viewDidLoad()
+    }
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~geting friends infomation~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     func getFriendUidArray(){
         guard let uid = uid else {
             return
         }
-        self.networking.readDataFromFrieBase(collection: "Friends", uid: uid){ data in
+        self.networking.readDataFromFrieBase(collection: "Friends", uid: uid){[weak self] data in
+            guard let strongSelf = self else{
+                return
+            }
             DispatchQueue.main.async {
                 if let uidArray = data["friendsUID"] as? [String] {
-                    self.getUserDatabyArray(data: uidArray)
-                    self.dispatchGroup.notify(queue: DispatchQueue.main, execute: {
-                        self.friendList = self.datehandler.sortArrayByClosingBirthday(data: self.friendList)
-                        self.tableView.reloadData()
+                    strongSelf.getUserDatabyArray(data: uidArray)
+                    strongSelf.dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+                        strongSelf.friendList = strongSelf.datehandler.sortArrayByClosingBirthday(data: strongSelf.friendList)
+                        strongSelf.tableView.reloadData()
                     })
                 }
             }
@@ -113,13 +142,13 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
     func getUserDatabyArray(data: [String]){
         for uid in data {
             self.dispatchGroup.enter()
-            self.networking.readDataFromFrieBase(collection: "User", uid: uid ){ data in
+            self.networking.readDataFromFrieBase(collection: "User", uid: uid ){ [weak self] data in
                     let username = data["Username"] as! String
-                let birthday = self.datehandler.getDatebyFirebaseTimestamp(data["Birthday"] as! FirebaseFirestore.Timestamp)
+                let birthday = self?.datehandler.getDatebyFirebaseTimestamp(data["Birthday"] as! FirebaseFirestore.Timestamp)
                     let email = data["Email"] as! String
                     let friend: Friend = Friend(uid: uid, birthday: birthday, email: email, username: username)
-                    self.friendList.append(friend)
-                self.dispatchGroup.leave()
+                    self?.friendList.append(friend)
+                self?.dispatchGroup.leave()
             }
         }
         

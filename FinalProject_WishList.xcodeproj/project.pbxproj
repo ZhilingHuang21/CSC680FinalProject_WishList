@@ -10,7 +10,6 @@
 		470F48D3281F8D5C0002E840 /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D2281F8D5C0002E840 /* WishListViewController.swift */; };
 		470F48D5281F8F080002E840 /* FirebaseAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D4281F8F080002E840 /* FirebaseAuth.swift */; };
 		470F48D8281F9DD30002E840 /* UIAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D7281F9DD30002E840 /* UIAlert.swift */; };
-		470F48DA28205B040002E840 /* WishItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48D928205B020002E840 /* WishItem.swift */; };
 		470F48DD2820A0810002E840 /* PrefileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48DC2820A0810002E840 /* PrefileViewController.swift */; };
 		470F48E02822FAAC0002E840 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48DF2822FAAC0002E840 /* FriendsViewController.swift */; };
 		470F48E22823076E0002E840 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470F48E12823076E0002E840 /* Friends.swift */; };
@@ -32,6 +31,7 @@
 		47C3EC3B281C8AD0007D93B0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C3EC3A281C8AD0007D93B0 /* HomeViewController.swift */; };
 		47C3EC3E281EF586007D93B0 /* DateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C3EC3D281EF585007D93B0 /* DateHandler.swift */; };
 		47C3EC40281EF939007D93B0 /* Aztro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C3EC3F281EF938007D93B0 /* Aztro.swift */; };
+		47E1367F2825CDA50009D044 /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E1367E2825CDA40009D044 /* ErrorHandler.swift */; };
 		B5BF099050DE00BDDA474B1F /* Pods_FinalProject_WishList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA63C9C84DBA2FDA81CFD4DF /* Pods_FinalProject_WishList.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +40,6 @@
 		470F48D2281F8D5C0002E840 /* WishListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishListViewController.swift; sourceTree = "<group>"; };
 		470F48D4281F8F080002E840 /* FirebaseAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuth.swift; sourceTree = "<group>"; };
 		470F48D7281F9DD30002E840 /* UIAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlert.swift; sourceTree = "<group>"; };
-		470F48D928205B020002E840 /* WishItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishItem.swift; sourceTree = "<group>"; };
 		470F48DC2820A0810002E840 /* PrefileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefileViewController.swift; sourceTree = "<group>"; };
 		470F48DF2822FAAC0002E840 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		470F48E12823076E0002E840 /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		47C3EC3A281C8AD0007D93B0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		47C3EC3D281EF585007D93B0 /* DateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHandler.swift; sourceTree = "<group>"; };
 		47C3EC3F281EF938007D93B0 /* Aztro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aztro.swift; sourceTree = "<group>"; };
+		47E1367E2825CDA40009D044 /* ErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
 		6DC6FDFDCE5147C7EE78E0A7 /* Pods-FinalProject_WishList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinalProject_WishList.release.xcconfig"; path = "Target Support Files/Pods-FinalProject_WishList/Pods-FinalProject_WishList.release.xcconfig"; sourceTree = "<group>"; };
 		CA63C9C84DBA2FDA81CFD4DF /* Pods_FinalProject_WishList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FinalProject_WishList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -84,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				470F48D2281F8D5C0002E840 /* WishListViewController.swift */,
-				470F48D928205B020002E840 /* WishItem.swift */,
 			);
 			path = Wishlist;
 			sourceTree = "<group>";
@@ -110,7 +109,6 @@
 			children = (
 				470F48DF2822FAAC0002E840 /* FriendsViewController.swift */,
 				470F48E32823708A0002E840 /* FriendWishlistViewController.swift */,
-				470F48E12823076E0002E840 /* Friends.swift */,
 			);
 			path = Friend;
 			sourceTree = "<group>";
@@ -140,6 +138,7 @@
 				47C3EC182818E45A007D93B0 /* Model */,
 				47C3EC1328165B76007D93B0 /* Auth */,
 				470F48D6281F9DAC0002E840 /* UI */,
+				47E1367D2825CD580009D044 /* Error */,
 				47C3EC102815FEDD007D93B0 /* RegisterLogin */,
 				47C3EBFC2815E9E3007D93B0 /* AppDelegate.swift */,
 				47C3EC052815E9E8007D93B0 /* Assets.xcassets */,
@@ -173,6 +172,7 @@
 		47C3EC182818E45A007D93B0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				470F48E12823076E0002E840 /* Friends.swift */,
 				47C3EC192818E489007D93B0 /* User.swift */,
 				47C3EC1B281A0EB0007D93B0 /* NetWorking.swift */,
 				47C3EC3F281EF938007D93B0 /* Aztro.swift */,
@@ -209,6 +209,14 @@
 				47C3EC2F281B903F007D93B0 /* LogInViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		47E1367D2825CD580009D044 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				47E1367E2825CDA40009D044 /* ErrorHandler.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		9419044DD02C76EC9C061B88 /* Pods */ = {
@@ -350,7 +358,6 @@
 				470F48DD2820A0810002E840 /* PrefileViewController.swift in Sources */,
 				47C3EC1528165BE4007D93B0 /* validator.swift in Sources */,
 				47C3EC1228164AED007D93B0 /* RegisterViewController.swift in Sources */,
-				470F48DA28205B040002E840 /* WishItem.swift in Sources */,
 				47C3EC40281EF939007D93B0 /* Aztro.swift in Sources */,
 				47C3EC012815E9E3007D93B0 /* RegisterLogInViewController.swift in Sources */,
 				47C3EC30281B9040007D93B0 /* LogInViewController.swift in Sources */,
@@ -365,6 +372,7 @@
 				470F48D5281F8F080002E840 /* FirebaseAuth.swift in Sources */,
 				47C3EBFD2815E9E3007D93B0 /* AppDelegate.swift in Sources */,
 				470F48E42823708A0002E840 /* FriendWishlistViewController.swift in Sources */,
+				47E1367F2825CDA50009D044 /* ErrorHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

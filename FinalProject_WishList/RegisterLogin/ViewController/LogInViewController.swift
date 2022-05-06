@@ -25,6 +25,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     private var user = LoginUser()
     
     var loginManager = LoginManager()
+    let errorhandler = ErrorHandler()
     
     @IBAction func loginPressed(_ sender: Any) {
         if !self.user.email.isEmpty && !self.user.password.isEmpty {
@@ -38,6 +39,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         Auth.auth().signIn(withEmail: self.user.email, password: self.user.password) { authResult, error in
             if error != nil {
                 print("Error: \(String(describing: error))")
+                let errormessage = self.errorhandler.handleFirbaseAuthError(error!)
+                self.errorhandler.showErrorAlert(ui: self, message: errormessage){}
             }
             else{
                 print("Login  success")

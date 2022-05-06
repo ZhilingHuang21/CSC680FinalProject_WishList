@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct Friends: Codable {
-    var friends : [Friend]
-}
-
 struct Friend : Codable {
     var uid : String
     var birthday : Date?

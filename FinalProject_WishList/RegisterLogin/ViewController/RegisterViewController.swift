@@ -4,22 +4,14 @@
 //
 //  Created by Zhiling huang on 4/24/22.
 //
-
-
-
-/*
- UI Tag
- 1 == email
- 2 == username
- 3 == password
- 4 == confirm password
- */
+//
 import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 
 
 
+// Using UITextFieldDelegate to get user input
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
     
@@ -41,17 +33,23 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var repeatPasswordMessage: UILabel!
     
     let networking = NetWorking()
+    let errorhandler = ErrorHandler()
+    
     @IBAction func donePressed(_ sender: Any) {
         dataPickerSetter()
         if self.passwordIsValue && userInfo.isValueSet(){
             FirebaseAuth()
         }
     }
+    
+    // Create user
     func FirebaseAuth(){
         let data = self.userInfo.getBaseType()
         Auth.auth().createUser(withEmail: self.userInfo.email, password: self.userInfo.password) { authResult, error in
             if (error != nil) {
                 print("Error in Signs up Account. Error \(String(describing: error))")
+                let errormessage = self.errorhandler.handleFirbaseAuthError(error!)
+                self.errorhandler.showErrorAlert(ui: self, message: errormessage){}
                
             }
             else{
@@ -81,19 +79,12 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         repeatPasswordInput.delegate = self
     }
     
-    
-    
-    
-    
-    
     func dataPickerSetter(){
         birthdayPicker.maximumDate = Date()
         userInfo.birthday = birthdayPicker.date
     }
     
-    
-    
-    
+    // Delegate to Textfield to get Text  and user Validator Class to varify the data format
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == emailInput {
@@ -103,15 +94,13 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let isValue = Validator(data: text).isValueData(items: [EmailType(),Require()])
 
             if isValue {
-                emailMessage.text = "✅"
+                emailMessage.text = ""
                 userInfo.email = text
             }
             else{
                 emailMessage.text = "Please Enter correct Email Format"
                 emailMessage.textColor=UIColor.systemRed
-                
             }
-    
         }
         else if textField == userNameInput {
             guard let text = textField.text else{
@@ -120,7 +109,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let isValue = Validator(data: text).isValueData(items: [Require(),MinLenght(val: 3),MaxLenght(val:13)])
             
             if isValue {
-                nameMessage.text = "✅"
+                nameMessage.text = ""
                 userInfo.username = text
             }
             else{
@@ -136,7 +125,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let isValue = Validator(data: text).isValueData(items: [Require(), PasswordType()])
             
             if isValue{
-                passwordMessage.text = "✅"
+                passwordMessage.text = ""
                 userInfo.password = text
             }
             else{
@@ -152,7 +141,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let isValue = !userInfo.password.isEmpty && userInfo.isRepeatPassword(repeatPassword: text)
             
             if isValue {
-                repeatPasswordMessage.text = "✅"
+                repeatPasswordMessage.text = ""
                 self.passwordIsValue = true
             }
             else {

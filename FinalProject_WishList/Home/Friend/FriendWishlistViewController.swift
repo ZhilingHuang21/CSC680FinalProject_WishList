@@ -22,7 +22,7 @@ class FriendWishlistViewController: UIViewController, UITableViewDelegate, UITab
     var wishList:[String] = []
     
     var isLoadingViewController = false
-    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     override func viewDidLoad() {
         super.viewDidLoad()
         isLoadingViewController = true
@@ -45,6 +45,7 @@ class FriendWishlistViewController: UIViewController, UITableViewDelegate, UITab
         tableview.register(WishItemCell.self, forCellReuseIdentifier: "WishItemCell")
         navigationItem.title = "Wish List"
     }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~update user info~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func updateInfo(){
         guard let friend = friend else {
             return
@@ -55,17 +56,19 @@ class FriendWishlistViewController: UIViewController, UITableViewDelegate, UITab
         self.getFriendWishList(uid: friend.uid)
         
     }
-    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~geting friend uid~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func getFriendWishList(uid: String){
-        self.networking.readDataFromFrieBase(collection: "WishItem", uid: uid){ data in
+        self.networking.readDataFromFrieBase(collection: "WishItem", uid: uid){ [weak self] data in
             DispatchQueue.main.async {
                 let wishlist = data["items"] as! [String]
-                self.wishList = wishlist
-                self.tableview.reloadData()
+                self?.wishList = wishlist
+                self?.tableview.reloadData()
             }
             
         }
     }
+    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tableview~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return wishList.count
     }

@@ -5,6 +5,8 @@
 //  Created by Zhiling huang on 4/24/22.
 //
 
+// Validation for the user text input
+
 import Foundation
 
 protocol DataType {

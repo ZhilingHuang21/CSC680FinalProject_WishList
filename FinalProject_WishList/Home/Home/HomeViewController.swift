@@ -19,8 +19,8 @@ class RecentFriendCell: UITableViewCell {
 }
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     
+    // UI
     @IBOutlet weak var greeting: UILabel!
-    
     @IBOutlet weak var mysign: UILabel!
     @IBOutlet weak var AztroDes: UITextView!
     @IBOutlet weak var luckyColor: UILabel!
@@ -28,23 +28,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var luckyTime: UILabel!
     @IBOutlet weak var mood: UILabel!
     @IBOutlet weak var luckyNumber: UILabel!
-    
     @IBOutlet weak var Avatar: UIImageView!
     @IBOutlet weak var tableview: UITableView!
     
-    
+    // helping tool
     let networking = NetWorking()
     let datehandler = DateHandler()
-    
     let currentUser = Auth.auth().currentUser
     let ref = Database.database().reference()
-    
-    
-    var recentThreeBirthdayGuys: [Friend] = []
-    var friendList: [Friend] = []
     let dispatchGroup = DispatchGroup()
     
-    
+    // data
+    var recentThreeBirthdayGuys: [Friend] = []
+    var friendList: [Friend] = []
     var aztroInfo: Aztro?
     var isLoadingViewController = false
     
@@ -75,11 +71,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.getFriendUidArray()
     }
     
-    
-    
-    
-    
-    
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~tableView ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.recentThreeBirthdayGuys.count
@@ -115,24 +107,30 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         friendWishListViewController.friend = friend
     }
     
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
-    
-    
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~user info and Daliy horoscope~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     func updateHomeView(){
         guard let uid = currentUser?.uid else {
             return
         }
-        self.networking.readDataFromFrieBase(collection: "User", uid: uid){ data in
+        self.networking.readDataFromFrieBase(collection: "User", uid: uid){ [weak self] data in
+            guard let strongSelf = self else {
+                return
+            }
             let username = data["Username"] as! String
             guard let birthday = data["Birthday"] as? FirebaseFirestore.Timestamp else {
                 return
             }
             let birthdayDate = birthday.dateValue()
-            let birthdayString = self.datehandler.getStringByDate(birthdayDate,format: "MM-d")
-            self.greeting.text = "Hi, \(username)"
-            self.uploadTodayAztro(birthdayString)
+            let birthdayString = strongSelf.datehandler.getStringByDate(birthdayDate,format: "MM-d")
+            strongSelf.greeting.text = "Hi, \(username)"
+            strongSelf.uploadTodayAztro(birthdayString)
         }
     }
+    
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Daliy horoscope ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     func uploadTodayAztro(_ birthday: String){
         let mydate = self.datehandler.getDateByString(birthday , format: "MM-d")
@@ -147,7 +145,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
+    // daliy horoscope view format
     func daliyHoroscpe(mydetail: Aztro, mysign: String){
         
         self.mysign.text = "Dear, \(mysign)"
@@ -159,46 +157,56 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.mood.text = "Mood: \(mydetail.mood)"
         
     }
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~getting recent 3 birthday guy and upload to tableview~~~~~~~~~~~~~~~~~~
+    
+    // get user's firend uid
     func getFriendUidArray(){
         guard let uid = currentUser?.uid else {
             return
         }
-        self.networking.readDataFromFrieBase(collection: "Friends", uid: uid){ data in
+        self.networking.readDataFromFrieBase(collection: "Friends", uid: uid){[weak self] data in
+           guard let strongSelf = self else{
+                return
+            }
             DispatchQueue.main.async {
                 if let uidArray = data["friendsUID"] as? [String] {
-                    self.getUserDatabyArray(data: uidArray)
-                    self.dispatchGroup.notify(queue: DispatchQueue.main, execute: {
-                        self.friendList = self.datehandler.sortArrayByClosingBirthday(data: self.friendList)
-                        if self.friendList.count > 3 {
-                            self.recentThreeBirthdayGuys = Array(self.friendList[0...3])
+                    strongSelf.getUserDatabyArray(data: uidArray)
+                    strongSelf.dispatchGroup.notify(queue: DispatchQueue.main, execute: {
+                        strongSelf.friendList = strongSelf.datehandler.sortArrayByClosingBirthday(data: strongSelf.friendList)
+                        if strongSelf.friendList.count > 3 {
+                            strongSelf.recentThreeBirthdayGuys = Array(strongSelf.friendList[0...3])
                         }
                         else{
-                            self.recentThreeBirthdayGuys = self.friendList
+                            strongSelf.recentThreeBirthdayGuys = strongSelf.friendList
                         }
-                        self.tableview.reloadData()
+                        strongSelf.tableview.reloadData()
                     })
                 }
             }
         }
     }
     
+    // from friend uid geting friend informatio
     
     func getUserDatabyArray(data: [String]){
         for uid in data {
             self.dispatchGroup.enter()
-            self.networking.readDataFromFrieBase(collection: "User", uid: uid ){ data in
+            self.networking.readDataFromFrieBase(collection: "User", uid: uid ){[weak self] data in
                     let username = data["Username"] as! String
-                let birthday = self.datehandler.getDatebyFirebaseTimestamp(data["Birthday"] as! FirebaseFirestore.Timestamp)
+                let birthday = self?.datehandler.getDatebyFirebaseTimestamp(data["Birthday"] as! FirebaseFirestore.Timestamp)
                     let email = data["Email"] as! String
                     let friend: Friend = Friend(uid: uid, birthday: birthday, email: email, username: username)
-                    self.friendList.append(friend)
-                self.dispatchGroup.leave()
+                    self?.friendList.append(friend)
+                self?.dispatchGroup.leave()
             }
         }
         
     }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
     
 }

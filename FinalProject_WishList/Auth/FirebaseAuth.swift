@@ -4,6 +4,7 @@
 //
 //  Created by Zhiling huang on 5/1/22.
 //
+// Description: Geting currentuser id from Friebase 
 
 import Foundation
 import FirebaseAuth

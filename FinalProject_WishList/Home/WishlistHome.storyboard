@@ -395,7 +395,7 @@
                     <navigationItem key="navigationItem" id="fst-JF-pXB">
                         <barButtonItem key="rightBarButtonItem" title="Add" id="loL-gE-ul9">
                             <connections>
-                                <segue destination="2jY-fC-V4J" kind="show" id="jSR-HK-SLW"/>
+                                <action selector="addFriendsPressed:" destination="FTa-P8-RgF" id="xdX-5K-Otb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -414,30 +414,30 @@
             <objects>
                 <viewController restorationIdentifier="FriendWishlistViewController" storyboardIdentifier="FriendWishlistViewController" id="uzh-wV-7mP" customClass="FriendWishlistViewController" customModule="FinalProject_WishList" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="f2e-Ij-QOk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="18d-jb-PzW">
-                                <rect key="frame" x="20" y="26" width="150" height="228"/>
+                                <rect key="frame" x="20" y="114" width="150" height="145"/>
                                 <color key="tintColor" red="0.91333931680000002" green="0.82193370779999997" blue="0.83275735200000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="B9j-3s-Q8L">
-                                <rect key="frame" x="189" y="40" width="209" height="218"/>
+                                <rect key="frame" x="189" y="128" width="209" height="135"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2n-7Z-qRu">
-                                        <rect key="frame" x="0.0" y="0.0" width="209" height="66"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="209" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sqq-gt-2ks">
-                                        <rect key="frame" x="0.0" y="66" width="209" height="66.5"/>
+                                        <rect key="frame" x="0.0" y="41" width="209" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Birthday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKW-Ir-oHe">
-                                        <rect key="frame" x="0.0" y="132.5" width="209" height="85.5"/>
+                                        <rect key="frame" x="0.0" y="82" width="209" height="53"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -445,7 +445,7 @@
                                 </subviews>
                             </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Shj-yh-OjN">
-                                <rect key="frame" x="0.0" y="283" width="414" height="525"/>
+                                <rect key="frame" x="0.0" y="288" width="414" height="525"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -478,22 +478,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FFE-Tm-TOw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7434.7826086956529" y="1530.8035714285713"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="SMW-8B-lB5">
-            <objects>
-                <viewController id="2jY-fC-V4J" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="d95-Ye-PRH">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="ZOa-XH-C41"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="S86-ld-1By"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="l2j-ae-d2e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8311.5942028985519" y="787.5"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="zjU-Xy-8li">
@@ -557,7 +541,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Yi5-WB-iFe"/>
+        <segue reference="SOq-DI-1oi"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="heart.rectangle" catalog="system" width="128" height="93"/>

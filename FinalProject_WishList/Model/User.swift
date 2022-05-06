@@ -4,6 +4,7 @@
 //
 //  Created by Zhiling huang on 4/26/22.
 //
+// Description: Checking sign form's data are all value
 
 import Foundation
 

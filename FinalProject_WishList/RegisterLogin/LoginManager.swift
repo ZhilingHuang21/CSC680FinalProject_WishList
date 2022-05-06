@@ -4,6 +4,7 @@
 //
 //  Created by Zhiling huang on 4/29/22.
 //
+//  Description: log in and logout Manager
 
 import Foundation
 import FirebaseAuth
