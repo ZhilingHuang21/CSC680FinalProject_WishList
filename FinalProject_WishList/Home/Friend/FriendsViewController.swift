@@ -67,10 +67,10 @@ class FriendsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         let friend = friendList[indexPath.row]
-        cell.title.text = "\(friend.username) \n"
+        cell.title.text = "\(friend.username)\n"
         let date: Date = friend.birthday!
         let dateString = datehandler.getStringByDate(date, format: "MMM d")
-        cell.subtitle.text = "\(dateString) \n"
+        cell.subtitle.text = "\(dateString)\n"
         cell.subtitle.textColor = UIColor.systemPink
         return cell
     }
