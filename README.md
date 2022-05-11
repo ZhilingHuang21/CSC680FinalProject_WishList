@@ -13,3 +13,5 @@ Features:
 Prototype:
 https://ilearn.sfsu.edu/ay2122/pluginfile.php/1310098/mod_resource/content/1/FinalProjectPrompt.pdf
 
+Google Slides:
+https://docs.google.com/presentation/d/1ybccWD6jKVwBROeG0tu8PLfax4rFcrIWXKmIq3Ab6QI/edit?usp=sharing
