@@ -11,7 +11,7 @@ Features:
 
 
 Prototype:
-https://ilearn.sfsu.edu/ay2122/pluginfile.php/1310098/mod_resource/content/1/FinalProjectPrompt.pdf
+https://www.figma.com/file/ATJzBArR6rqxttjOwhT96j/FinalProject?node-id=0%3A1
 
 Google Slides:
 https://docs.google.com/presentation/d/1ybccWD6jKVwBROeG0tu8PLfax4rFcrIWXKmIq3Ab6QI/edit?usp=sharing
