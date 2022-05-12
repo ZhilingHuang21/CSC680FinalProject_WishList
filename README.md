@@ -1,6 +1,6 @@
 # WishList App
 
-Description: This App is help user firgure out what gift user should buy for friends.
+Description: This App is to help user find out what gift user should buy for friends.
 
 Features:
 1. User shell be able to Log in, Sign out and Log out(must have)
