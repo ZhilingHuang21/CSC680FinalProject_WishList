@@ -15,3 +15,8 @@ https://www.figma.com/file/ATJzBArR6rqxttjOwhT96j/FinalProject?node-id=0%3A1
 
 Google Slides:
 https://docs.google.com/presentation/d/1ybccWD6jKVwBROeG0tu8PLfax4rFcrIWXKmIq3Ab6QI/edit?usp=sharing
+
+
+
+
+Using iphone13 simulator to test the app 
